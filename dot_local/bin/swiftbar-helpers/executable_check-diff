@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Check Diff - Show uncommitted changes in dotfiles
+# Called from SwiftBar menu (opens in terminal)
+
+CHEZMOI_DIR="$HOME/.local/share/chezmoi"
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Dotfiles Diff Check"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+if [ ! -d "$CHEZMOI_DIR" ]; then
+    echo "❌ Error: chezmoi directory not found"
+    echo "Expected: $CHEZMOI_DIR"
+    echo ""
+    echo "Press any key to close..."
+    read -n 1
+    exit 1
+fi
+
+cd "$CHEZMOI_DIR" || exit 1
+
+# Check for uncommitted changes
+echo "📝 Checking for uncommitted changes..."
+echo ""
+
+if git diff-index --quiet HEAD --; then
+    echo "✓ No uncommitted changes - everything is synced!"
+    echo ""
+else
+    echo "⚠️  Uncommitted changes detected:"
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    git status --short
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Detailed diff:"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    git diff HEAD
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+fi
+
+# Check chezmoi diff (what would change in home directory)
+echo "📋 Checking chezmoi diff (changes to apply)..."
+echo ""
+
+CHEZMOI_DIFF=$(chezmoi diff 2>&1)
+
+if [ -z "$CHEZMOI_DIFF" ]; then
+    echo "✓ No pending chezmoi changes"
+    echo ""
+else
+    echo "⚠️  Pending chezmoi changes:"
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "$CHEZMOI_DIFF"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+fi
+
+# Show recent commits
+echo "📜 Recent commits (last 5):"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+git log --oneline -5
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# Check if we're ahead of remote
+BEHIND_AHEAD=$(git rev-list --left-right --count origin/main...HEAD 2>/dev/null)
+if [ $? -eq 0 ]; then
+    BEHIND=$(echo $BEHIND_AHEAD | awk '{print $1}')
+    AHEAD=$(echo $BEHIND_AHEAD | awk '{print $2}')
+    
+    if [ "$AHEAD" -gt 0 ]; then
+        echo "⚠️  You have $AHEAD unpushed commit(s)"
+        echo ""
+    fi
+    
+    if [ "$BEHIND" -gt 0 ]; then
+        echo "⚠️  Remote is $BEHIND commit(s) ahead"
+        echo "   Run 'git pull' to update"
+        echo ""
+    fi
+    
+    if [ "$AHEAD" -eq 0 ] && [ "$BEHIND" -eq 0 ]; then
+        echo "✓ In sync with remote (GitHub)"
+        echo ""
+    fi
+fi
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Press any key to close..."
+read -n 1

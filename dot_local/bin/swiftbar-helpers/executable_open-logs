@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Open Logs - View dotfiles sync logs
+# Called from SwiftBar menu
+
+LOG_FILE="$HOME/Library/Logs/dotfiles-update.log"
+
+if [ ! -f "$LOG_FILE" ]; then
+    osascript -e 'display notification "No log file found yet" with title "Dotfiles Sync" subtitle "First sync has not run" sound name "Basso"'
+    exit 1
+fi
+
+# Open in Console.app (native macOS log viewer)
+open -a Console "$LOG_FILE"
+
+# Alternative: Open in default text editor
+# open "$LOG_FILE"
+
+# Alternative: Show last 50 lines in a dialog
+# RECENT_LOGS=$(tail -50 "$LOG_FILE")
+# osascript -e "display dialog \"$RECENT_LOGS\" with title \"Recent Sync Logs\" buttons {\"OK\"} default button 1"

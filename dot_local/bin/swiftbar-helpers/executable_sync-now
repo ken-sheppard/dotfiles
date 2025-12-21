@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Sync Now - Manually trigger dotfiles sync
+# Called from SwiftBar menu
+
+# Set up Homebrew PATH
+if [ -f "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -f "/usr/local/bin/brew" ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# Send notification that sync is starting
+osascript -e 'display notification "Starting dotfiles sync..." with title "Dotfiles Sync" subtitle "Manual sync triggered"'
+
+# Run the update script
+UPDATE_SCRIPT="$HOME/.local/bin/update-dotfiles.sh"
+
+if [ ! -f "$UPDATE_SCRIPT" ]; then
+    osascript -e 'display notification "Update script not found" with title "Dotfiles Sync" subtitle "Error" sound name "Basso"'
+    exit 1
+fi
+
+# Run the sync
+if "$UPDATE_SCRIPT" > /tmp/dotfiles-sync-manual.log 2>&1; then
+    # Success notification
+    osascript -e 'display notification "Dotfiles synced successfully!" with title "Dotfiles Sync" subtitle "✓ Complete" sound name "Glass"'
+else
+    # Error notification
+    osascript -e 'display notification "Sync failed - check logs" with title "Dotfiles Sync" subtitle "❌ Error" sound name "Basso"'
+    
+    # Show the error in a dialog
+    ERROR_MSG=$(tail -5 /tmp/dotfiles-sync-manual.log | tr '\n' ' ')
+    osascript -e "display dialog \"Sync failed with error:\\n\\n$ERROR_MSG\" with title \"Dotfiles Sync Error\" buttons {\"OK\"} default button 1 with icon caution"
+fi
+
+# Clean up temp log
+rm -f /tmp/dotfiles-sync-manual.log
