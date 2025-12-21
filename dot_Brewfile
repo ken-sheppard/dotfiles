@@ -127,6 +127,8 @@ cask "spacewalker"
 cask "spotify"
 # System monitor for the menu bar
 cask "stats"
+# Menu bar customization tool
+cask "swiftbar"
 # SSH client
 cask "termius"
 # To-do list
@@ -135,8 +137,6 @@ cask "todoist-app"
 cask "visual-studio-code"
 # Native desktop client for WhatsApp
 cask "whatsapp"
-mas "iMovie", id: 408981434
-mas "Keynote", id: 409183694
 mas "Paint S", id: 736473980
 vscode "1password.op-vscode"
 vscode "42crunch.vscode-openapi"
