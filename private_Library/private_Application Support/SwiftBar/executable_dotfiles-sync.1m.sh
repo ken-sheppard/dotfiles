@@ -14,11 +14,19 @@ GITHUB_REPO="https://github.com/ken-sheppard/dotfiles"
 SWIFTBAR_PLUGINS="$HOME/Library/Application Support/SwiftBar"
 HELPER_SCRIPTS="$HOME/.local/bin/swiftbar-helpers"
 
+# Detect which Mac we're running on
+COMPUTER_NAME=$(scutil --get ComputerName 2>/dev/null || hostname -s)
+COMPUTER_SHORT=$(echo "$COMPUTER_NAME" | sed 's/MacBook-//' | sed 's/.local//')
+
 # Set up Homebrew PATH
 if [ -f "/opt/homebrew/bin/brew" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+    MAC_ARCH="Apple Silicon"
 elif [ -f "/usr/local/bin/brew" ]; then
     eval "$(/usr/local/bin/brew shellenv)"
+    MAC_ARCH="Intel"
+else
+    MAC_ARCH="Unknown"
 fi
 
 # Colors
@@ -181,6 +189,39 @@ time_until_next_run() {
     echo "${hours}h ${minutes}m"
 }
 
+# Check for changes from other Mac (remote)
+check_remote_status() {
+    if [ ! -d "$CHEZMOI_DIR" ]; then
+        echo "UNKNOWN"
+        return
+    fi
+    
+    cd "$CHEZMOI_DIR" || return
+    
+    # Fetch latest from GitHub (quietly)
+    git fetch origin main 2>/dev/null
+    
+    # Check if we're behind, ahead, or in sync
+    local status=$(git rev-list --left-right --count origin/main...HEAD 2>/dev/null)
+    if [ $? -ne 0 ]; then
+        echo "UNKNOWN"
+        return
+    fi
+    
+    local behind=$(echo "$status" | awk '{print $1}')
+    local ahead=$(echo "$status" | awk '{print $2}')
+    
+    if [ "$behind" -gt 0 ] && [ "$ahead" -gt 0 ]; then
+        echo "DIVERGED:$behind:$ahead"
+    elif [ "$behind" -gt 0 ]; then
+        echo "BEHIND:$behind"
+    elif [ "$ahead" -gt 0 ]; then
+        echo "AHEAD:$ahead"
+    else
+        echo "SYNCED"
+    fi
+}
+
 # ============================================================================
 # Main Display Logic
 # ============================================================================
@@ -234,6 +275,7 @@ echo "---"
 # ============================================================================
 
 echo "📦 Dotfiles Sync Status | size=14"
+echo "💻 $COMPUTER_NAME | color=$COLOR_GRAY size=11"
 echo "---"
 
 # Current Status Section
@@ -261,6 +303,30 @@ TRACKED=$(count_tracked_files)
 COMMITS=$(count_todays_commits)
 echo "Files tracked: $TRACKED | font=Monaco size=11"
 echo "Commits today: $COMMITS | font=Monaco size=11"
+
+# Check remote status (changes from other Mac)
+REMOTE_STATUS=$(check_remote_status)
+case "$REMOTE_STATUS" in
+    SYNCED)
+        echo "Remote: ✓ In sync with GitHub | color=$COLOR_GREEN font=Monaco size=11"
+        ;;
+    BEHIND:*)
+        BEHIND_COUNT=$(echo "$REMOTE_STATUS" | cut -d: -f2)
+        echo "Remote: ⬇️  $BEHIND_COUNT commit(s) from other Mac | color=$COLOR_YELLOW font=Monaco size=11"
+        ;;
+    AHEAD:*)
+        AHEAD_COUNT=$(echo "$REMOTE_STATUS" | cut -d: -f2)
+        echo "Remote: ⬆️  $AHEAD_COUNT unpushed commit(s) | color=$COLOR_BLUE font=Monaco size=11"
+        ;;
+    DIVERGED:*)
+        BEHIND_COUNT=$(echo "$REMOTE_STATUS" | cut -d: -f2)
+        AHEAD_COUNT=$(echo "$REMOTE_STATUS" | cut -d: -f3)
+        echo "Remote: ⚠️  Diverged ($BEHIND_COUNT behind, $AHEAD_COUNT ahead) | color=$COLOR_YELLOW font=Monaco size=11"
+        ;;
+    *)
+        echo "Remote: Unknown | color=$COLOR_GRAY font=Monaco size=11"
+        ;;
+esac
 
 # Next sync info
 NEXT_RUN=$(get_next_run)
@@ -294,6 +360,10 @@ echo "---"
 
 # System Health
 echo "🏥 System Health"
+
+# Show Mac architecture
+echo "✓ Architecture: $MAC_ARCH | color=$COLOR_GREEN font=Monaco size=10"
+
 if [ -d "$CHEZMOI_DIR/.git" ]; then
     echo "✓ Git repository: OK | color=$COLOR_GREEN font=Monaco size=10"
 else
