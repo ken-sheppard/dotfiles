@@ -14,7 +14,7 @@ fi
 osascript -e 'display notification "Starting dotfiles sync..." with title "Dotfiles Sync" subtitle "Manual sync triggered"'
 
 # Run the update script
-UPDATE_SCRIPT="$HOME/.local/bin/update-dotfiles"
+UPDATE_SCRIPT="$HOME/.local/bin/update-dotfiles.sh"
 
 if [ ! -f "$UPDATE_SCRIPT" ]; then
     osascript -e 'display notification "Update script not found" with title "Dotfiles Sync" subtitle "Error" sound name "Basso"'
