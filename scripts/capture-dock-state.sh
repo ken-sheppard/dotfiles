@@ -171,34 +171,63 @@ echo "Configuring Dock apps..."
 
 EOF
 
-# Capture current Dock apps
+# Capture to temp file first to debug
+TEMP_DOCK_LIST=$(mktemp)
+dockutil --list > "$TEMP_DOCK_LIST"
+
 echo "# Persistent Apps" >> "$APPS_SCRIPT"
-dockutil --list | grep "persistent-apps" | while IFS=$'\t' read -r label path position; do
-    # Escape quotes in path
-    safe_path=$(echo "$path" | sed 's/"/\\"/g')
-    echo "dockutil --add \"$safe_path\" --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
-done
+
+# Count apps found
+APP_COUNT=0
+
+# Read the temp file line by line
+while IFS= read -r line; do
+    # Check if line contains an app path
+    if [[ "$line" == *".app"* ]] && [[ "$line" != *"persistent-others"* ]]; then
+        # Extract the path - it's typically the second field
+        # Format is: Label<TAB>Path<TAB>Position
+        path=$(echo "$line" | awk -F'\t' '{print $2}')
+        
+        if [ -n "$path" ]; then
+            # Escape quotes in path
+            safe_path=$(echo "$path" | sed 's/"/\\"/g')
+            echo "dockutil --add \"$safe_path\" --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
+            ((APP_COUNT++))
+        fi
+    fi
+done < "$TEMP_DOCK_LIST"
 
 echo "" >> "$APPS_SCRIPT"
 echo "# Folders and Other Items" >> "$APPS_SCRIPT"
-dockutil --list | grep "persistent-others" | while IFS=$'\t' read -r label path position; do
-    # Escape quotes in path
-    safe_path=$(echo "$path" | sed 's/"/\\"/g')
-    
-    # Check if it's a folder or file
-    if [[ "$path" == file://* ]]; then
-        # Convert file URL to path
-        actual_path=$(echo "$path" | sed 's|^file://||' | sed 's|%20| |g')
+
+# Reset line counter
+FOLDER_COUNT=0
+
+# Process folders/other items
+while IFS= read -r line; do
+    # Look for Downloads, Documents, etc. (non-.app items)
+    if [[ "$line" != *".app"* ]] && [[ "$line" == *"file://"* ]]; then
+        path=$(echo "$line" | awk -F'\t' '{print $2}')
         
-        if [ -d "$actual_path" ]; then
-            echo "dockutil --add \"$safe_path\" --view grid --display folder --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
-        else
-            echo "dockutil --add \"$safe_path\" --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
+        if [ -n "$path" ]; then
+            # Escape quotes in path
+            safe_path=$(echo "$path" | sed 's/"/\\"/g')
+            
+            # Convert file URL to actual path for checking
+            actual_path=$(echo "$path" | sed 's|^file://||' | python3 -c "import sys; from urllib.parse import unquote; print(unquote(sys.stdin.read().strip()))")
+            
+            if [ -d "$actual_path" ]; then
+                echo "dockutil --add \"$safe_path\" --view grid --display folder --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
+            else
+                echo "dockutil --add \"$safe_path\" --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
+            fi
+            ((FOLDER_COUNT++))
         fi
-    else
-        echo "dockutil --add \"$safe_path\" --no-restart 2>/dev/null || true" >> "$APPS_SCRIPT"
     fi
-done
+done < "$TEMP_DOCK_LIST"
+
+# Clean up temp file
+rm "$TEMP_DOCK_LIST"
 
 cat >> "$APPS_SCRIPT" << 'EOF'
 
@@ -209,7 +238,21 @@ echo "✅ Dock apps configuration applied!"
 EOF
 
 chmod +x "$APPS_SCRIPT"
+
 echo "✅ Dock apps captured to: $APPS_SCRIPT"
+echo "   Found $APP_COUNT apps and $FOLDER_COUNT folders/items"
+
+# If no apps were found, show debug info
+if [ "$APP_COUNT" -eq 0 ]; then
+    echo ""
+    echo "⚠️  Warning: No apps were captured!"
+    echo "   Let's debug this..."
+    echo ""
+    echo "=== dockutil --list output ==="
+    dockutil --list | head -10
+    echo ""
+    echo "To manually check: dockutil --list"
+fi
 
 ###############################################################################
 # Summary
