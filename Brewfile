@@ -1,0 +1,181 @@
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
+# AWS Cloud Development Kit - framework for defining AWS infra as code
+brew "aws-cdk"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.13"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Manage your dotfiles across multiple diverse machines, securely
+brew "chezmoi"
+# Cross-platform make
+brew "cmake"
+# GitHub command-line tool
+brew "gh"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
+# Distributed revision control system
+brew "git"
+# AVH edition of git-flow
+brew "git-flow-avh"
+# Tools and libraries to manipulate images in many formats
+brew "imagemagick"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# Interactive environments for writing and running code
+brew "jupyterlab"
+# Postgres C API library
+brew "libpq"
+# Access large language models from the command-line
+brew "llm"
+# Mac App Store command-line interface
+brew "mas"
+# Cross platform, open source .NET development framework
+brew "mono"
+# Send push notifications to your phone or desktop via PUT/POST
+brew "ntfy"
+# Manage multiple Node.js versions
+brew "nvm"
+# Development kit for the Java programming language
+brew "openjdk@11"
+# Execute binaries from Python packages in isolated environments
+brew "pipx"
+# Object-relational database system
+brew "postgresql@14"
+# Ruby version manager
+brew "rbenv"
+# Send macOS User Notifications from the command-line
+brew "terminal-notifier"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Vi 'workalike' with many additional features
+brew "vim"
+# Internet file retriever
+brew "wget"
+# JavaScript package manager
+brew "yarn"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
+# Command-line interface for 1Password
+cask "1password-cli"
+# Image editor focused on simplicity
+cask "acorn"
+# UI wireframing tool
+cask "balsamiq-wireframes"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# Write, edit, and chat about your code with AI
+cask "cursor"
+# App to build and share containerised applications and microservices
+cask "docker-desktop"
+# Web browser
+cask "firefox"
+cask "font-digital-numbers"
+# Desktop client for GitHub repositories
+cask "github"
+# Web browser
+cask "google-chrome"
+# Client for the Google Drive storage service
+cask "google-drive"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
+# JetBrains tools manager
+cask "jetbrains-toolbox"
+# Discover, download, and run local LLMs
+cask "lm-studio"
+# Spreadsheet software
+cask "microsoft-excel"
+# Digital note taking app
+cask "microsoft-onenote"
+# Email client
+cask "microsoft-outlook"
+# Presentation software
+cask "microsoft-powerpoint"
+# Meet, chat, call, and collaborate in just one place
+cask "microsoft-teams"
+# Word processor
+cask "microsoft-word"
+# VPN client for secure internet access and private browsing
+cask "nordvpn"
+# App to write, plan, collaborate, and get organised
+cask "notion"
+# Cloud storage client
+cask "onedrive"
+# Mail merge for Pages
+cask "pages-data-merge"
+# Utility to switch from light to dark mode
+cask "panda"
+# Collaboration platform for API development
+cask "postman"
+# Command-line shell and scripting language
+cask "powershell"
+# HTTP debugging proxy
+cask "proxyman"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Window snapping tool
+cask "rectangle-pro"
+# Screenshot measurement and annotation tool
+cask "shottr"
+# Team communication and collaboration software
+cask "slack"
+# Use virtual monitors with Viture XR glasses
+cask "spacewalker"
+# Music streaming service
+cask "spotify"
+# System monitor for the menu bar
+cask "stats"
+# SSH client
+cask "termius"
+# To-do list
+cask "todoist-app"
+# Open-source code editor
+cask "visual-studio-code"
+# Native desktop client for WhatsApp
+cask "whatsapp"
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Paint S", id: 736473980
+vscode "1password.op-vscode"
+vscode "42crunch.vscode-openapi"
+vscode "aleksandardev.vscode-sequence-diagrams"
+vscode "amazonwebservices.amazon-q-vscode"
+vscode "amazonwebservices.aws-toolkit-vscode"
+vscode "amrrkf.aws-cdk-construct-snippet"
+vscode "anthropic.claude-code"
+vscode "arjun.swagger-viewer"
+vscode "docker.docker"
+vscode "dsznajder.es7-react-js-snippets"
+vscode "ecmel.vscode-html-css"
+vscode "github.copilot"
+vscode "github.copilot-chat"
+vscode "golang.go"
+vscode "joshuapoehls.json-escaper"
+vscode "m4ns0ur.base64"
+vscode "mechatroner.rainbow-csv"
+vscode "meezilla.json"
+vscode "mohsen1.prettify-json"
+vscode "ms-azuretools.vscode-containers"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-dotnettools.csdevkit"
+vscode "ms-dotnettools.csharp"
+vscode "ms-dotnettools.vscode-dotnet-runtime"
+vscode "ms-python.debugpy"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-toolsai.jupyter"
+vscode "ms-toolsai.jupyter-keymap"
+vscode "ms-toolsai.jupyter-renderers"
+vscode "ms-toolsai.vscode-jupyter-cell-tags"
+vscode "ms-toolsai.vscode-jupyter-slideshow"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode-remote.remote-wsl"
+vscode "ms-vscode.azure-repos"
+vscode "ms-vscode.live-server"
+vscode "ms-vscode.powershell"
+vscode "ms-vscode.remote-repositories"
+vscode "redhat.vscode-yaml"
+vscode "ryu1kn.partial-diff"
+vscode "unclebeast.har-viewer"

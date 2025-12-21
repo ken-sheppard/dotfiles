@@ -1,0 +1,32 @@
+[profile pf-cu-admin]
+sso_session = pf-cu-admin
+sso_account_id = 358692710224
+sso_role_name = AdministratorAccess
+region = us-east-1
+[sso-session pf-cu-admin]
+sso_start_url = https://veradigm.awsapps.com/start/#
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
+[profile to-prd-admin]
+sso_session = to-prd-admin
+sso_account_id = 442042533707
+sso_role_name = AdministratorAccess
+region = us-east-2
+[sso-session to-prd-admin]
+sso_start_url = https://thirdopinion.awsapps.com/start/#
+sso_region = us-east-2
+sso_registration_scopes = sso:account:access
+[profile to-dev-admin]
+sso_session = to-dev-admin
+sso_account_id = 615299752206
+sso_role_name = AdministratorAccess
+region = us-east-2
+[sso-session to-dev-admin]
+sso_start_url = https://thirdopinion.awsapps.com/start/#
+sso_region = us-east-2
+sso_registration_scopes = sso:account:access
+[profile bedrock-role]
+role_arn = arn:aws:iam::442042533707:role/prd-to-bedrock-kb-service-role
+source_profile = default
+[profile osstest]
+region = us-east-2

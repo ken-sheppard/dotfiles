@@ -1,0 +1,19 @@
+# Security - Never sync these!
+.aws/credentials
+.ssh/id_*
+.ssh/*.pem
+.ssh/known_hosts
+
+# Build artifacts
+.dotnet/
+.nuget/packages/
+node_modules/
+
+# IDE specific (use built-in sync)
+.vscode/extensions/
+.config/JetBrains/
+
+# Large files
+*.dmg
+*.pkg
+*.app
