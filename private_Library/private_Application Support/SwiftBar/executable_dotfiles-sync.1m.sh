@@ -351,6 +351,13 @@ echo "📋 View Logs | bash='$HELPER_SCRIPTS/open-logs' terminal=false"
 echo "🔍 Check Diff | bash='$HELPER_SCRIPTS/check-diff' terminal=true"
 echo "---"
 
+# Dock Settings Submenu
+echo "🎯 Dock Settings"
+echo "--📐 Apply Dock Preferences | bash='$CHEZMOI_DIR/scripts/executable_10-macos-dock-preferences.sh' terminal=false refresh=true"
+echo "--📱 Apply Dock Apps | bash='$CHEZMOI_DIR/scripts/executable_10-macos-dock-apps.sh' terminal=false refresh=true"
+echo "--📸 Capture Dock State | bash='$CHEZMOI_DIR/scripts/capture-dock-state.sh' terminal=true"
+echo "---"
+
 # Links Section
 echo "🔗 Quick Links"
 echo "🌐 Open GitHub | href=$GITHUB_REPO"

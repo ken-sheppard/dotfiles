@@ -31,6 +31,7 @@ defaults write com.apple.finder ShowPathbar -bool true
 
 # Set default view style (Nlsv=list, icnv=icon, clmv=column, Flwv=gallery)
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+defaults write com.apple.finder AppleShowAllFiles TRUE
 
 # ================================
 # Dock
