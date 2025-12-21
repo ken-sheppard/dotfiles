@@ -32,3 +32,21 @@ alias claude="/Users/ken/.claude/local/claude"
 # Task Master aliases added on 12/17/2025
 alias hamster='task-master'
 alias ham='task-master'
+
+# Dotfiles management
+alias dotfiles="chezmoi cd"
+alias dots-update="chezmoi update"
+alias dots-edit="chezmoi edit"
+alias dots-diff="chezmoi diff"
+alias dots-push="~/.local/bin/update-dotfiles.sh"
+
+# Homebrew shortcuts
+alias brewup="brew update && brew upgrade && brew cleanup"
+alias brewdump="brew bundle dump --force --describe --file=$HOME/Brewfile && chezmoi re-add"
+
+# AWS shortcuts (if using AWS)
+alias awsls="aws configure list-profiles"
+alias awswho="aws sts get-caller-identity"
+
+# Mac sync
+alias sync-mac="~/.local/share/chezmoi/scripts/sync-from-dotfiles.sh"
