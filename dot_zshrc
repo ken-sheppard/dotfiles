@@ -27,7 +27,6 @@ aws_dev() { export AWS_PROFILE=to-dev-admin }
 sso() { aws sso login }
 
 
-alias claude="/Users/ken/.claude/local/claude"
 
 # Task Master aliases added on 12/17/2025
 alias hamster='task-master'
