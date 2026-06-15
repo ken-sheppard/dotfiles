@@ -173,7 +173,6 @@ mas "Paint S", id: 736473980
 vscode "1password.op-vscode"
 vscode "42crunch.vscode-openapi"
 vscode "aleksandardev.vscode-sequence-diagrams"
-vscode "amazonwebservices.amazon-q-vscode"
 vscode "amazonwebservices.aws-toolkit-vscode"
 vscode "amrrkf.aws-cdk-construct-snippet"
 vscode "anthropic.claude-code"
