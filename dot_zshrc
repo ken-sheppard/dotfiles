@@ -43,3 +43,5 @@ alias awswho="aws sts get-caller-identity"
 
 # Mac sync
 alias sync-mac="~/.local/share/chezmoi/scripts/sync-from-dotfiles.sh"
+export ELASTIC_AGENT_BUILDER_KEY="c1AwNXpKNEJSVXZXQlVKS1hNOG06aWRmeU5tVUI4b3JHbFFCZTE1eUhXQQ=="
+
