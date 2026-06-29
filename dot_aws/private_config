@@ -1,12 +1,3 @@
-[profile pf-cu-admin]
-sso_session = pf-cu-admin
-sso_account_id = 358692710224
-sso_role_name = AdministratorAccess
-region = us-east-1
-[sso-session pf-cu-admin]
-sso_start_url = https://veradigm.awsapps.com/start/#
-sso_region = us-east-1
-sso_registration_scopes = sso:account:access
 [profile to-prd-admin]
 sso_session = to-prd-admin
 sso_account_id = 442042533707
