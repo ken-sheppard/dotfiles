@@ -5,9 +5,9 @@ export PATH="$PATH:/Users/ken/.lmstudio/bin"
 # End of LM Studio CLI section
 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 
@@ -44,4 +44,3 @@ alias awswho="aws sts get-caller-identity"
 # Mac sync
 alias sync-mac="~/.local/share/chezmoi/scripts/sync-from-dotfiles.sh"
 export ELASTIC_AGENT_BUILDER_KEY="c1AwNXpKNEJSVXZXQlVKS1hNOG06aWRmeU5tVUI4b3JHbFFCZTE1eUhXQQ=="
-
