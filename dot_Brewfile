@@ -141,7 +141,6 @@ cask "pages-data-merge"
 cask "panda"
 # Collaboration platform for API development
 cask "postman"
-# Command-line shell and scripting language
 cask "powershell"
 # HTTP debugging proxy
 cask "proxyman"
