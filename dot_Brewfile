@@ -137,7 +137,6 @@ cask "notion"
 cask "onedrive"
 # Mail merge for Pages
 cask "pages-data-merge"
-# Utility to switch from light to dark mode
 cask "panda"
 # Collaboration platform for API development
 cask "postman"
